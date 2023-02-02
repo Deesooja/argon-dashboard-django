@@ -47,25 +47,25 @@ def pages(request):
             # print("indide the if ",request.method)
             # print(request.POST)
 
-            print(request.POST["email"])
+            # print(request.POST["email"])
             email=request.POST["email"]
-            print(email)
+            # print(email)
             user_name=request.POST["user_name"]
-            print(user_name)
+            # print(user_name)
             first_name=request.POST["first_name"]
-            print(first_name)
+            # print(first_name)
             last_name=request.POST["last_name"]
-            print(last_name)
+            # print(last_name)
             address=request.POST["address"]
-            print(address)
+            # print(address)
             city=request.POST["city"]
-            print(city)
+            # print(city)
             country=request.POST["country"]
-            print(country)
+            # print(country)
             postal_code=request.POST["postal_code"]
-            print(postal_code)
+            # print(postal_code)
             about_me=request.POST["about_me"]
-            print(about_me)
+            # print(about_me)
 
             if User.objects.filter(email=email).exists():
                 user_obj=User.objects.get(email=email)
@@ -81,6 +81,7 @@ def pages(request):
                     user_rest_info.postal_code=postal_code
                     user_rest_info.about_me=about_me
                     user_rest_info.save()
+                    context['user_rest_info'] = user_rest_info
                 else:
                     created=UserRestInfo.objects.create(user_id=user_obj.id,address=address,city=city,country=country,postal_code=postal_code,about_me=about_me)
                     context['user_rest_info'] = created
