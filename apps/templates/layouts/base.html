@@ -56,7 +56,9 @@
   {% include "includes/scripts.html" %}
 
   <!-- Specific JS goes HERE --> 
-  {% block javascripts %}{% endblock javascripts %}
+  {% block javascripts %}
+  <script src="/static/assets/js/my_custum.js"></script>
+  {% endblock javascripts %}
 
   <script src="/static/assets/js/argon.js?v=1.2.0"></script>
 

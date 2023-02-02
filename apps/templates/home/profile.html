@@ -16,7 +16,12 @@
           Hello {{ request.user.username }}
         </h1>
         <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
-        <a href="#!" class="btn btn-neutral">Edit profile</a>
+        <!-- <form action="">
+          <input class="btn btn-neutral" type="file" name="background_image" id="">
+          <input  class="btn btn-neutral" type="submit" value="Save">
+        </form> -->
+        <!-- <a href="#!" class="btn btn-neutral">Change</a> -->
+        <button href="#!" class="btn btn-neutral" id="change_background_image" onclick="backgroun_image()">Change</button>
       </div>
     </div>
   </div>
@@ -38,8 +43,8 @@
         </div>
         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
           <div class="d-flex justify-content-between">
-            <a href="#" class="btn btn-sm btn-info  mr-4 ">Connect</a>
-            <a href="#" class="btn btn-sm btn-default float-right">Message</a>
+            <button href="#" class="btn btn-sm btn-info  mr-4  " onclick="profile_pic()">Change DP</button>
+            <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
           </div>
         </div>
         <div class="card-body pt-0">
@@ -86,7 +91,13 @@
               <!-- <h3 class="mb-0">Edit profile </h3> -->
             </div>
             <div class="col-4 text-right">
-              <a href="/profile_update.html" class="btn btn-sm btn-primary">Edit</a>
+              
+              
+              <a href="/profile_update.html"  >
+                <button class="btn btn-sm btn-primary"> Edit</button>
+              </a>
+
+              
             </div>
           </div>
         </div>
@@ -178,4 +189,15 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+
+<script src="../../static/assets/js/my_custum.js"></script>
+
+<!-- <script>
+  // document.getElementById("change_background_image").onclick(alert('hjhghjg'))
+  function showAlert() {
+    var myText = "This can be whatever text you like!";
+    alert (myText);
+  }
+  </script> -->
+{% endblock javascripts %}

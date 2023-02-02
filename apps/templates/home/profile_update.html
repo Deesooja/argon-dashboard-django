@@ -4,19 +4,22 @@
 
 {% block content %}
 
-<div class="header pb-6 d-flex align-items-center" 
-     style="min-height: 500px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<!-- <div class="header pb-6 d-flex align-items-center" 
+     style="min-height: 500px; background-image: url({{user_rest_info.background_image.url}}); background-size: cover; background-position: center top;">  -->
+<div class="header pb-6 d-flex align-items-center"
+  style="min-height: 500px; background-image: url({{user_rest_info.background_image.url}}); background-size: contain; background-position: center top;background-repeat: no-repeat;">
   <!-- Mask -->
   <span class="mask bg-gradient-default opacity-8"></span>
   <!-- Header container -->
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10">
-        <h1 class="display-2 text-white"> 
+        <h1 class="display-2 text-white">
           Hello {{ request.user.username }}
         </h1>
-        <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
-        <a href="#!" class="btn btn-neutral">Edit profile</a>
+        <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work
+          and manage your projects or assigned tasks</p>
+        <button href="#!" onclick="backgroun_image()" class="btn btn-neutral">Edit profile</button>
       </div>
     </div>
   </div>
@@ -31,15 +34,15 @@
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
               <a href="#">
-                <img src="/static/assets/img/theme/team-4.jpg" class="rounded-circle">
+                <img src="{{user_rest_info.profile_pic.url}}" class="rounded-circle">
               </a>
             </div>
           </div>
         </div>
         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
           <div class="d-flex justify-content-between">
-            <a href="#" class="btn btn-sm btn-info  mr-4 ">Connect</a>
-            <a href="#" class="btn btn-sm btn-default float-right">Message</a>
+            <button href="#" class="btn btn-sm btn-info  mr-4 " onclick="profile_pic()">Change DP</button>
+            <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
           </div>
         </div>
         <div class="card-body pt-0">
@@ -86,88 +89,97 @@
               <h3 class="mb-0">Edit profile </h3>
             </div>
             <form action="/profile.html" method="post">
-                {% csrf_token %}
-            <div class="col-4 text-right">
+              {% csrf_token %}
+              <div class="col-4 text-right">
                 <input class="btn btn-sm btn-primary" type="submit" value="Save">
-              <!-- <a href="#" class="btn btn-sm btn-primary">Save</a> -->
-            </div>
+                <!-- <a href="#" class="btn btn-sm btn-primary">Save</a> -->
+              </div>
           </div>
         </div>
         <div class="card-body">
           <!-- <form> -->
-            <h6 class="heading-small text-muted mb-4">User information</h6>
-            <div class="pl-lg-4">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-username">Username</label>
-                    <input type="text" id="input-username" name="user_name" class="form-control" placeholder="Username" value="{{ request.user.username }}">
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-email">Email address</label>
-                    <input type="email" id="input-email" readonly name="email"  class="form-control" placeholder="{{ request.user.email }}", value="{{request.user.email}}">
-                  </div>
+          <h6 class="heading-small text-muted mb-4">User information</h6>
+          <div class="pl-lg-4">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-username">Username</label>
+                  <input type="text" id="input-username" name="user_name" class="form-control" placeholder="Username"
+                    value="{{ request.user.username }}">
                 </div>
               </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">First name</label>
-                    <input type="text" id="input-first-name" name="first_name" class="form-control" placeholder="First name" value="{{ request.user.first_name }}">
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-last-name">Last name</label>
-                    <input type="text" id="input-last-name" name="last_name" class="form-control" placeholder="Last name" value="{{ request.user.last_name }}">
-                  </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-email">Email address</label>
+                  <input type="email" id="input-email" readonly name="email" class="form-control"
+                    placeholder="{{ request.user.email }}" , value="{{request.user.email}}">
                 </div>
               </div>
             </div>
-            <hr class="my-4" />
-            <!-- Address -->
-            <h6 class="heading-small text-muted mb-4">Contact information</h6>
-            <div class="pl-lg-4">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-address">Address</label>
-                    <input id="input-address" class="form-control" name="address" placeholder="Home Address" value="{{ user_rest_info.address }}" type="text">
-                  </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-first-name">First name</label>
+                  <input type="text" id="input-first-name" name="first_name" class="form-control"
+                    placeholder="First name" value="{{ request.user.first_name }}">
                 </div>
               </div>
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-city">City</label>
-                    <input type="text" id="input-city" name="city" class="form-control" placeholder="City" value="{{ user_rest_info.city}}">
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-country">Country</label>
-                    <input type="text" id="input-country" name="country" class="form-control" placeholder="Country" value="{{ user_rest_info.country }}">
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-country">Postal code</label>
-                    <input type="number" id="input-postal-code" name="postal_code" class="form-control" placeholder="{{ user_rest_info.postal_code}}" value="{{ user_rest_info.postal_code}}">
-                  </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-last-name">Last name</label>
+                  <input type="text" id="input-last-name" name="last_name" class="form-control" placeholder="Last name"
+                    value="{{ request.user.last_name }}">
                 </div>
               </div>
             </div>
-            <hr class="my-4" />
-            <!-- Description -->
-            <h6 class="heading-small text-muted mb-4">About me</h6>
-            <div class="pl-lg-4">
-              <div class="form-group">
-                <label class="form-control-label">About Me</label>
-                <textarea rows="4" class="form-control" name="about_me" placeholder="A few words about you ...">{{ user_rest_info.about_me }}</textarea>
+          </div>
+          <hr class="my-4" />
+          <!-- Address -->
+          <h6 class="heading-small text-muted mb-4">Contact information</h6>
+          <div class="pl-lg-4">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-address">Address</label>
+                  <input id="input-address" class="form-control" name="address" placeholder="Home Address"
+                    value="{{ user_rest_info.address }}" type="text">
+                </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-city">City</label>
+                  <input type="text" id="input-city" name="city" class="form-control" placeholder="City"
+                    value="{{ user_rest_info.city}}">
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-country">Country</label>
+                  <input type="text" id="input-country" name="country" class="form-control" placeholder="Country"
+                    value="{{ user_rest_info.country }}">
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-country">Postal code</label>
+                  <input type="number" id="input-postal-code" name="postal_code" class="form-control"
+                    placeholder="{{ user_rest_info.postal_code}}" value="{{ user_rest_info.postal_code}}">
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="my-4" />
+          <!-- Description -->
+          <h6 class="heading-small text-muted mb-4">About me</h6>
+          <div class="pl-lg-4">
+            <div class="form-group">
+              <label class="form-control-label">About Me</label>
+              <textarea rows="4" class="form-control" name="about_me"
+                placeholder="A few words about you ...">{{ user_rest_info.about_me }}</textarea>
+            </div>
+          </div>
           </form>
         </div>
       </div>
@@ -180,5 +192,7 @@
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="../../static/assets/js/my_custum.js"></script>
+{% endblock javascripts %}
