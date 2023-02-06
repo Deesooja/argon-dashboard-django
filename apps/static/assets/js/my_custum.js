@@ -1,11 +1,11 @@
 
 
 
-{/* <script>
+/* <script>
 document.getElementById("change_background_image").click(function(){
 	alert("ok")
 // })
-</script> */}
+</script> */
 
 // function backgroun_image() {
 //     var myText = "Sir, I Am working On It";

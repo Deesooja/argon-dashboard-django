@@ -4,15 +4,16 @@
 
 {% block content %}
 
-<div class="header pb-6 d-flex align-items-center" 
-     style="min-height: 500px; background-image: url({{user_rest_info.background_image.url}}); background-size: contain; background-position: center top;background-repeat: no-repeat;">
+<div class="header pb-6 d-flex align-items-center" id="backgroun_image_div" {% if user_rest_info.background_image %}
+     style="min-height: 500px; background-image: url({{user_rest_info.background_image.url}}); background-size: contain; background-position: center top;background-repeat: no-repeat;" {%endif%}
+     style="min-height: 500px; background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqa86KP16OoZxRg2y98QKuNrWF5EdElht29tTOiXU2jCSHwKhs5HnL_M4B6xbrKsCqWBY&usqp=CAU); background-size: contain; background-position: center top;background-repeat: no-repeat;">
   <!-- Mask -->
   <span class="mask bg-gradient-default opacity-8"></span>
   <!-- Header container -->
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10">
-        <h1 class="display-2 text-white"> 
+        <h1 class="display-2 text-white" id="user_name"> 
           Hello {{ request.user.username }}
         </h1>
         <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
@@ -21,7 +22,15 @@
           <input  class="btn btn-neutral" type="submit" value="Save">
         </form> -->
         <!-- <a href="#!" class="btn btn-neutral">Change</a> -->
-        <button href="#!" class="btn btn-neutral" id="change_background_image" onclick="backgroun_image()">Change</button>
+      
+          <form id="backgroun_image_form" >
+            <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token }}" />
+            <input type="file"  name="backgroun_image" id="backgroun_image_id" >
+          </form>
+          <!-- <button href="#!" class="btn btn-neutral" id="change_background_image" onclick="backgroun_image_fun()">Change</button> -->
+          <button href="#!" class="btn btn-neutral" id="change_background_image" onclick="backgroun_image_fun()">Change</button>
+
+        
       </div>
     </div>
   </div>
@@ -35,15 +44,20 @@
         <div class="row justify-content-center">
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
+              <h1>kjhjhh</h1>
               <a href="#">
-                <img src="{{user_rest_info.profile_pic.url}}" class="rounded-circle" >
+                <img {% if user_rest_info.profile_pic %} src="{{user_rest_info.profile_pic.url}}" {% endif %} src= "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqa86KP16OoZxRg2y98QKuNrWF5EdElht29tTOiXU2jCSHwKhs5HnL_M4B6xbrKsCqWBY&usqp=CAU" class="rounded-circle" id="user_dp">
               </a>
             </div>
           </div>
         </div>
         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
           <div class="d-flex justify-content-between">
-            <button href="#" class="btn btn-sm btn-info  mr-4  " onclick="profile_pic()">Change DP</button>
+            <form id="profile_pic_form" >
+              <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token }}" />
+              <input type="file"  name="profile_pic_input" id="profile_pic_id" >
+            </form>
+            <button href="#" class="btn btn-sm btn-info  mr-4 " onclick="profile_pic()">Change DP</button>
             <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
           </div>
         </div>
@@ -91,31 +105,28 @@
               <!-- <h3 class="mb-0">Edit profile </h3> -->
             </div>
             <div class="col-4 text-right">
-              
-              
-              <a href="/profile_update.html"  >
-                <button class="btn btn-sm btn-primary"> Edit</button>
-              </a>
-
-              
+              <!-- <a href="/profile_update.html"  > -->
+                <button id="edit_btn" class="btn btn-sm btn-primary" onclick="edit_profile(this.id)"> Edit Profile </button>
+              <!-- </a> -->
             </div>
           </div>
         </div>
         <div class="card-body">
-          <form>
+          <form id="profile_form">
             <h6 class="heading-small text-muted mb-4">User information</h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
+                    <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token }}" />
                     <label class="form-control-label" for="input-username">Username</label>
-                    <input type="text" id="input-username" readonly class="form-control" placeholder="Username" value="{{ request.user.username }}">
+                    <input type="text" name="username" id="input-username" readonly class="form-control" placeholder="Username" value="{{ request.user.username }}">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-email">Email address</label>
-                    <input type="email" id="input-email" readonly class="form-control" placeholder="{{ request.user.email }}">
+                    <input type="email" name="email" id="input-email" readonly class="form-control" placeholder="{{ request.user.email }}" value="{{ request.user.email }}">
                   </div>
                 </div>
               </div>
@@ -123,13 +134,13 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">First name</label>
-                    <input type="text" id="input-first-name" readonly class="form-control" placeholder="First name" value="{{ request.user.first_name }}">
+                    <input type="text" name="first_name" id="input-first-name" readonly class="form-control" placeholder="First name" value="{{ request.user.first_name }}">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-last-name">Last name</label>
-                    <input type="text" id="input-last-name" readonly class="form-control" placeholder="Last name" value="{{ request.user.last_name }}">
+                    <input type="text" name="last_name" id="input-last-name" readonly class="form-control" placeholder="Last name" value="{{ request.user.last_name }}">
                   </div>
                 </div>
               </div>
@@ -142,7 +153,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Address</label>
-                    <input id="input-address" class="form-control" readonly placeholder="Home Address" value="{{ user_rest_info.address }}" type="text">
+                    <input id="input-address" name="address" class="form-control" readonly placeholder="Home Address" value="{{ user_rest_info.address }}" type="text">
                   </div>
                 </div>
               </div>
@@ -150,19 +161,19 @@
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-city">City</label>
-                    <input type="text" id="input-city" class="form-control" readonly placeholder="City" value="{{ user_rest_info.city}}">
+                    <input type="text" name="city" id="input-city" class="form-control" readonly placeholder="City" value="{{ user_rest_info.city}}">
                   </div>
                 </div>
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-country">Country</label>
-                    <input type="text" id="input-country" class="form-control" readonly placeholder="Country" value="{{ user_rest_info.country }}">
+                    <input type="text" name="country" id="input-country" class="form-control" readonly placeholder="Country" value="{{ user_rest_info.country }}">
                   </div>
                 </div>
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-country">Postal code</label>
-                    <input type="number" id="input-postal-code" readonly class="form-control" placeholder="{{ user_rest_info.postal_code}}">
+                    <input type="number" name="postal_code" id="input-postal-code" readonly class="form-control" placeholder="{{ user_rest_info.postal_code}}", value="{{ user_rest_info.postal_code}}">
                   </div>
                 </div>
               </div>
@@ -173,7 +184,7 @@
             <div class="pl-lg-4">
               <div class="form-group">
                 <label class="form-control-label">About Me</label>
-                <textarea rows="4" class="form-control" readonly placeholder="A few words about you ...">{{ user_rest_info.about_me }}</textarea>
+                <textarea rows="4" name="about_me" id="input-about-me" class="form-control" readonly placeholder="A few words about you ..." >{{ user_rest_info.about_me }}</textarea>
               </div>
             </div>
           </form>
@@ -191,7 +202,7 @@
 <!-- Specific JS goes HERE --> 
 {% block javascripts %}
 
-<script src="../../static/assets/js/my_custum.js"></script>
+<!-- <script src="../../static/assets/js/my_custum.js"></script> -->
 
 <!-- <script>
   // document.getElementById("change_background_image").onclick(alert('hjhghjg'))
