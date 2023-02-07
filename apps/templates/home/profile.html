@@ -162,7 +162,7 @@ style="min-height: 500px; background-image: url({{user_rest_info.background_imag
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Address</label>
-                    <input id="input-address" name="address" class="form-control" readonly placeholder="Home Address" value="{{ user_rest_info.address }}" type="text">
+                    <input id="input-address" name="address" class="form-control" readonly placeholder="Home Address" {% if user_rest_info.address %} value="{{ user_rest_info.address }}" {% endif %} value="" type="text">
                   </div>
                 </div>
               </div>
@@ -170,19 +170,19 @@ style="min-height: 500px; background-image: url({{user_rest_info.background_imag
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-city">City</label>
-                    <input type="text" name="city" id="input-city" class="form-control" readonly placeholder="City" value="{{ user_rest_info.city}}">
+                    <input type="text" name="city" id="input-city" class="form-control" readonly placeholder="City" {% if user_rest_info.city %} value="{{ user_rest_info.city}}" {% endif %} value="">
                   </div>
                 </div>
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-country">Country</label>
-                    <input type="text" name="country" id="input-country" class="form-control" readonly placeholder="Country" value="{{ user_rest_info.country }}">
+                    <input type="text" name="country" id="input-country" class="form-control" readonly placeholder="Country" {% if user_rest_info.country %} value="{{ user_rest_info.country }}" {% endif %} value="">
                   </div>
                 </div>
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-country">Postal code</label>
-                    <input type="number" name="postal_code" id="input-postal-code" readonly class="form-control" placeholder="{{ user_rest_info.postal_code}}", value="{{ user_rest_info.postal_code}}">
+                    <input type="number" name="postal_code" id="input-postal-code" readonly class="form-control" placeholder="Postal Code " {% if user_rest_info.postal_code %} value="{{ user_rest_info.postal_code}}" {% endif %} value=""  >
                   </div>
                 </div>
               </div>
@@ -193,7 +193,7 @@ style="min-height: 500px; background-image: url({{user_rest_info.background_imag
             <div class="pl-lg-4">
               <div class="form-group">
                 <label class="form-control-label">About Me</label>
-                <textarea rows="4" name="about_me" id="input-about-me" class="form-control" readonly placeholder="A few words about you ..." >{{ user_rest_info.about_me }}</textarea>
+                <textarea rows="4" name="about_me" id="input-about-me" class="form-control" readonly placeholder="A few words about you ..." > {% if user_rest_info.postal_code %} {{ user_rest_info.about_me }} {% endif %} </textarea>
               </div>
             </div>
           </form>
