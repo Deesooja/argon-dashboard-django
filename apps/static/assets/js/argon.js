@@ -31,8 +31,8 @@ var Layout = (function () {
       .addClass("g-sidenav-show g-sidenav-pinned");
     $("body").append(
       '<div class="backdrop d-xl-none" data-action="sidenav-unpin" data-target=' +
-        $("#sidenav-main").data("target") +
-        " />"
+      $("#sidenav-main").data("target") +
+      " />"
     );
 
     // Store the sidenav state in a cookie session
@@ -1069,45 +1069,45 @@ var Scrollbar = (function () {
   }
 })();
 
-// $(function() {
-// 	$("#change_background_image").click(function(){
-// 		alert("ok")
-// 	})
-// })
 
-// document.getElementById("change_background_image").click(function(){
-// 	alert("ok")
-// })
-// ---------------------------------------------------------------------Code By Deesooja---------------------------------------------------
+// -----------------------------------------------------------------------------Code By Deesooja----------------------------------
 
-// -------------------------------------------for-background image------------------------------
+// ---------------------------------------------------For Changing Background Image-------------------------------------------
 
 function backgroun_image_fun() {
+
   const file = document.getElementById("backgroun_image_id").files[0];
-  if (file) {
-    console.log(file);
-    const form_data_obj = new FormData(
-      document.getElementById("backgroun_image_form")
-    );
-    console.log(document.getElementById("csrf_token").value);
 
+  if (file) {
+
+    document.getElementById("background_image_loader").innerHTML = "Uploading..."
+
+    const form_data_obj = new FormData(document.getElementById("backgroun_image_form"));
+
+// -------------------------------------------------------------------------------------Ajax Calling-----------
     fetch("http://127.0.0.1:8000/profile/", {
+
       method: "POST",
+
       headers: {
         "X-CSRFToken": document.getElementById("csrf_token").value,
       },
-      body: form_data_obj,
+      body: form_data_obj,               // ---Sending data Formdata
     })
       .then((response) => response.json())
       .then(
         (data) => {
-          console.log(data);
+          console.log(data);    
+
           if (data) {
-            var backgroun_image_url=data["url"]
-            // console.log('url(${data["url"]})')
-            document.getElementById("backgroun_image_div").style.backgroundimage = "url('" + backgroun_image_url +  "')";
-              // document.getElementById("user_dp").src = data["url"];
-              // document.getElementById("user_name").innerHTML="working";
+
+            var backgroun_image_url = data.data["url"]
+
+            document.getElementById("backgroun_image_div").style.backgroundImage = "url('" + backgroun_image_url + "')";
+
+            document.getElementById("backgroun_image_form").reset()
+
+            document.getElementById("background_image_loader").innerHTML = ""
 
           } else {
             console.log("data not coming");
@@ -1117,105 +1117,144 @@ function backgroun_image_fun() {
       )
 
       .catch((error) => console.error(error));
-  }};
-  // ------------------------------------for profile image ---------------------------------
 
-  function profile_pic() {
-    const file = document.getElementById("profile_pic_id").files[0];
-  if (file) {
-    console.log(file);
-    const form_data_obj = new FormData(document.getElementById("profile_pic_form"));
-    console.log(document.getElementById("csrf_token").value);
+  } else {
 
-    fetch("http://127.0.0.1:8000/profile/", {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": document.getElementById("csrf_token").value,
-      },
-      body: form_data_obj,
-    })
-      .then((response) => response.json())
-      .then(
-        (data) => {
-          console.log(data);
-          if (data) {
-            var backgroun_image_url=data["url"]
-            // console.log('url(${data["url"]})')
-            document.getElementById("user_dp").src = backgroun_image_url;
-              // document.getElementById("user_dp").src = data["url"];
-              // document.getElementById("user_name").innerHTML="working";
-
-          } else {
-            console.log("data not coming");
-          }
-        }
-
-      )
-
-      .catch((error) => console.error(error));
-  }
-
-
-
-
-    var myText = "Sir, I Am working On It";
+    var myText = "Please choose Image";
     alert(myText);
+
   }
-  // ---------------------------------------------------------profile---------------------------------------
-  function edit_profile(id) {
-    if (id == "edit_btn") {
-      document.getElementById(id).innerHTML = "Save";
-      document.getElementById(id).id = "save_btn";
-      var input_field = document.getElementsByClassName("form-control");
-      for (var i = 0; i < input_field.length; i++) {
-        input_field[i].removeAttribute("readonly");
+};
+
+
+
+// ---------------------------------------------------------For Changing profile image ---------------------------------
+
+function profile_pic() {
+
+  const file = document.getElementById("profile_pic_id").files[0];
+
+  if (file) {
+
+    console.log(file);
+
+    document.getElementById("profile_image_loader").innerHTML = "Uploading...";
+
+    const form_data_obj = new FormData(document.getElementById("profile_pic_form"));
+
+    // ----------------------------------------------Ajax Calling 
+    fetch("http://127.0.0.1:8000/profile/", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": document.getElementById("csrf_token").value,
+      },
+      body: form_data_obj,                   // ---Sending data Formdata
+    })
+      .then((response) => response.json())
+      .then(
+        (data) => {
+          // console.log(data);
+          if (data) {     // -------- Ajax Respopse Resiving Hare
+
+            var profile_image_url = data.data["url"]
+
+            document.getElementById("user_dp").src = profile_image_url;      // --- set new profile image
+
+            document.getElementById("navbar_profile_pic").src = profile_image_url;  // --- set new navbar image
+
+            document.getElementById("profile_pic_form").reset();
+
+            document.getElementById("profile_image_loader").innerHTML = "";
+
+          } else {
+            console.log("data not coming");
+          }
+        }
+
+      )
+
+      .catch((error) => console.error(error));
+
+  } else {
+
+    var myText = "Please choose Image";
+    alert(myText);
+
+  }
+}
+
+
+
+
+// ---------------------------------------------------------For profile Form---------------------------------------------------
+
+function edit_profile(id) {
+
+  if (id == "edit_btn") {
+
+    document.getElementById(id).innerHTML = "Save";
+
+    document.getElementById(id).id = "save_btn";
+
+    var input_field = document.getElementsByClassName("form-control");
+
+    for (var i = 0; i < input_field.length; i++) {
+
+      // console.log(input_field[i].id)
+
+      if (input_field[i].id != "input-email") {
+
+        input_field[i].removeAttribute("readonly");  // - Making input field Writable if this is not email field
+
       }
-      // removeAttribute("readonly")
-      alert(id);
-    } else {
-      document.getElementById(id).innerHTML = "Edit Profile";
-      document.getElementById(id).id = "edit_btn";
-      var input_field = document.getElementsByClassName("form-control");
-      // -----------------------------------------------------------profile AJAX CAll-------------------------------------------------
-      var form = document.getElementById("profile_form");
-      // var formData = new FormData(form);
-      console.log(form.elements.csrf_token.value);
-      // console.log(form.elements.email.value);
-      // console.log(form.elements.first_name.value);
-      // var username=form.elements.username.value;
-      // console.log(formData)
-      // -------------------------------------------------------------------
-      var form_obj = {};
-      for (var i = 0; i < form.elements.length; i++) {
-        var element = form.elements[i];
-        if (element.name != "csrf_token") {
+    }
+
+  } else {
+
+    document.getElementById(id).innerHTML = "Edit Profile";
+
+    document.getElementById(id).id = "edit_btn";
+
+    var input_field = document.getElementsByClassName("form-control");
+
+    var form = document.getElementById("profile_form");
+
+    // -------------------------------------------------------Making Object of Form input field Value
+
+    var form_obj = {};
+    for (var i = 0; i < form.elements.length; i++) {
+
+      var element = form.elements[i];
+
+      if (element.name != "csrf_token") {
+
+        if (element.value == "") {
+
+          form_obj[element.name] = null;
+
+        } else {
+
           form_obj[element.name] = element.value;
+
         }
       }
-      // ------------------------------------------------------------------------
-      // var form_obj = {
-      // 	username: username,
-      //   username: form.elements.username.value,
-      //   email: document.getElementById("input-username"),
-      //   username: document.getElementById("input-email"),
-      //   first_name: document.getElementById("input-first-name"),
-      //   last_name: document.getElementById("input-last-name"),
-      //   address: document.getElementById("input-address"),
-      //   city: document.getElementById("input-city"),
-      //   country: document.getElementById("input-country"),
-      //   postal_code: document.getElementById("input-postal-code"),
-      //   about_me: document.getElementById("input-about-me"),
-      // };
-      // console.log(form_obj);
-      // function getCookie(name) {
-      // 	var value = "; " + document.cookie;
-      // 	var parts = value.split("; " + name + "=");
-      // 	if (parts.length == 2) return parts.pop().split(";").shift();
-      //   }
+    };
+    console.log(form_obj);
 
-      //   var csrf_token = getCookie('csrf_token');
-      //   console.log(form_obj.csrf_token)
-      // var obj = {hello:"hello"};
+    // -----------------------------------------------------------------Form Mendatory Fields Validations------------------------
+   
+    if (form_obj.first_name == "" || form_obj.last_name == "") {
+
+      if (form_obj.first_name == "") {
+        document.getElementById("first_name").innerHTML = "Fist Name Is Mandatory"
+      }
+      if (form_obj.last_name == "") {
+        document.getElementById("last_name").innerHTML = "Last Name Is Mandatory"
+      }
+
+    } else {
+
+      // -----------------------------------------------------------profile AJAX CAll-------------------------------------------------
 
       fetch("http://127.0.0.1:8000/profile/", {
         method: "POST",
@@ -1223,21 +1262,20 @@ function backgroun_image_fun() {
           "Content-Type": "application/json",
           "X-CSRFToken": form.elements.csrf_token.value,
         },
-        //   body: JSON.stringify({
-        //     key: "value",
-        //   }),
-        body: JSON.stringify(form_obj),
-        // body: JSON.stringify(obj),
+
+        body: JSON.stringify(form_obj),      // --- Sending Object On Url After Converting Javascript Objt\ect To Json
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => {
+          console.log(data);                // --- Resiving Response as  Json
+
+        })
         .catch((error) => console.error(error));
 
       for (var i = 0; i < input_field.length; i++) {
         input_field[i].setAttribute("readonly", "");
       }
 
-      alert(id);
     }
   }
-
+}

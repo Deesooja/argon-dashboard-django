@@ -7,6 +7,9 @@
 <div class="header pb-6 d-flex align-items-center" id="backgroun_image_div" {% if user_rest_info.background_image %}
      style="min-height: 500px; background-image: url({{user_rest_info.background_image.url}}); background-size: contain; background-position: center top;background-repeat: no-repeat;" {%endif%}
      style="min-height: 500px; background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqa86KP16OoZxRg2y98QKuNrWF5EdElht29tTOiXU2jCSHwKhs5HnL_M4B6xbrKsCqWBY&usqp=CAU); background-size: contain; background-position: center top;background-repeat: no-repeat;">
+<!--      
+<div class="header pb-6 d-flex align-items-center" id="backgroun_image_div" 
+style="min-height: 500px; background-image: url({{user_rest_info.background_image.url}}); background-size: contain; background-position: center top;background-repeat: no-repeat;" > -->
   <!-- Mask -->
   <span class="mask bg-gradient-default opacity-8"></span>
   <!-- Header container -->
@@ -27,11 +30,11 @@
             <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token }}" />
             <input type="file"  name="backgroun_image" id="backgroun_image_id" >
           </form>
+          
           <!-- <button href="#!" class="btn btn-neutral" id="change_background_image" onclick="backgroun_image_fun()">Change</button> -->
           <button href="#!" class="btn btn-neutral" id="change_background_image" onclick="backgroun_image_fun()">Change</button>
-
-        
-      </div>
+          <span id="background_image_loader"></span>
+        </div>
     </div>
   </div>
 </div>
@@ -44,7 +47,6 @@
         <div class="row justify-content-center">
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
-              <h1>kjhjhh</h1>
               <a href="#">
                 <img {% if user_rest_info.profile_pic %} src="{{user_rest_info.profile_pic.url}}" {% endif %} src= "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqa86KP16OoZxRg2y98QKuNrWF5EdElht29tTOiXU2jCSHwKhs5HnL_M4B6xbrKsCqWBY&usqp=CAU" class="rounded-circle" id="user_dp">
               </a>
@@ -55,12 +57,16 @@
           <div class="d-flex justify-content-between">
             <form id="profile_pic_form" >
               <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token }}" />
-              <input type="file"  name="profile_pic_input" id="profile_pic_id" >
+              <input type="file"  name="profile_pic" id="profile_pic_id" >
             </form>
-            <button href="#" class="btn btn-sm btn-info  mr-4 " onclick="profile_pic()">Change DP</button>
+            <button href="#" class="btn btn-sm btn-info  mr-4 " onclick="profile_pic()">Change</button>
             <!-- <a href="#" class="btn btn-sm btn-default float-right">Message</a> -->
           </div>
         </div>
+        <!-- <div class="d-flex align-items-center text-center"> -->
+          <span  id="profile_image_loader" > </span>
+        <!-- </div> -->
+
         <div class="card-body pt-0">
           <div class="row">
             <div class="col">
@@ -133,14 +139,17 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">First name</label>
+                    <label class="form-control-label" for="input-first-name">First name *</label>
+                    <span class="text-danger" id="first_name" ></span>
                     <input type="text" name="first_name" id="input-first-name" readonly class="form-control" placeholder="First name" value="{{ request.user.first_name }}">
+                  
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-last-name">Last name</label>
-                    <input type="text" name="last_name" id="input-last-name" readonly class="form-control" placeholder="Last name" value="{{ request.user.last_name }}">
+                    <label class="form-control-label" for="input-last-name">Last name *</label>
+                    <span class="text-danger" id="last_name" ></span>
+                    <input type="text" name="last_name" id="input-last-name"  readonly class="form-control" placeholder="Last name" value="{{ request.user.last_name }}">
                   </div>
                 </div>
               </div>
